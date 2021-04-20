@@ -1,0 +1,11 @@
+.rightAlign{
+    float: right;
+}
+
+.rightAlign:hover{
+    cursor: text;
+}
+
+.deleteIcon:hover{
+    cursor: pointer;
+}
