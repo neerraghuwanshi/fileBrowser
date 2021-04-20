@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Menu, Input, Dropdown } from 'antd';
+import { Menu, Input, Modal } from 'antd';
 import { FolderAddFilled, SearchOutlined, DownOutlined, UnorderedListOutlined, TableOutlined } from '@ant-design/icons';
 import { useDispatch } from "react-redux";
 
@@ -12,6 +12,8 @@ function ActionBar() {
     const { rightAlign, centered } = styles
 
     const [listGrouping, setListGrouping] = useState(true)
+    const [showModal, setShowModal] = useState(false)
+    const [folderInput, setFolderInput] = useState('')
 
     const dispatch = useDispatch()
 
@@ -25,8 +27,35 @@ function ActionBar() {
         },
     }
 
+    const addNewFolder = () => {
+        if(folderInput.length > 0){
+            dispatch(addFolderToFileData(folderInput))
+        }
+        setFolderInput('')
+        setShowModal(false)
+    }
+
+    const cancelCreateFolder = () => {
+        setFolderInput('')
+        setShowModal(false)
+    }
+
     return (
         <Menu mode="horizontal">
+            <Modal
+                title="Enter Name"
+                centered
+                visible={showModal}
+                okText='Create Folder'
+                onOk={addNewFolder}
+                onCancel={cancelCreateFolder}>
+                <Input
+                    allowClear
+                    value={folderInput}
+                    onPressEnter={addNewFolder}
+                    onChange={event=>setFolderInput(event.target.value)}
+                    placeholder='New Folder'/>
+            </Modal>
             <Menu.Item 
                 key="search" 
                 style={internalStyles.menuItem}>
@@ -78,7 +107,7 @@ function ActionBar() {
                     </div>
             </Menu.Item>
             <Menu.Item
-                onClick={()=>dispatch(addFolderToFileData('New'))}
+                onClick={()=>setShowModal(true)}
                 style={internalStyles.menuItem}
                 key="createFolder"
                 icon={<FolderAddFilled/>}

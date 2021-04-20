@@ -54,7 +54,7 @@ export const fileDataReducer = (state=initialState, action) => {
             newCurrentFileData.push(action.newFolder)
             newCurrentFileData = [...newCurrentFileData]
             if (newParent){
-                newParent.children = newCurrentFileData
+                newParent.children = [...newCurrentFileData]
             }
             else{
                 newFileData = newCurrentFileData
@@ -80,7 +80,7 @@ export const fileDataReducer = (state=initialState, action) => {
             }
             deletedCurrentFileData = deletedCurrentFileData.filter((item, index) => index !== action.index)
             if (parent){
-                parent.children = deletedCurrentFileData
+                parent.children = [...deletedCurrentFileData]
             }
             else{
                 deletedFileData = deletedCurrentFileData

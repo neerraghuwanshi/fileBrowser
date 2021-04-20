@@ -52,7 +52,7 @@ function FolderContent(props) {
                 style={internalStyles.menuItem}
                 key="delete"
                 className={`${rightAlign} ${deleteIcon}`}>
-                <DeleteOutlined />
+                <DeleteOutlined /> 
             </Menu.Item>
             <Menu.Item
                 style={internalStyles.menuItem}
