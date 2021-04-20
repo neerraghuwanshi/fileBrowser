@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { SetFileData } from '../store/actions/fileData'
 import FolderContentList from './FolderContentList'
+import styles from '../css/FolderContent.module.css'
 
 
 function FolderData() {
@@ -15,7 +17,7 @@ function FolderData() {
     }, [dispatch])
 
     return (
-        <div>
+        <div className={styles.div}>
             <FolderContentList currentFileData={currentFileData} />
         </div>
     )

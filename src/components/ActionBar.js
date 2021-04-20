@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { Menu, Input, Modal } from 'antd';
 import { FolderAddFilled, SearchOutlined, DownOutlined, UnorderedListOutlined, TableOutlined } from '@ant-design/icons';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from '../css/ActionBar.module.css'
 import { addFolderToFileData } from "../store/actions/fileData";
+import { setFolderArrangement } from '../store/actions/itemArrangement';
 
 
 function ActionBar() {
 
     const { rightAlign, centered } = styles
-
-    const [listGrouping, setListGrouping] = useState(true)
     const [showModal, setShowModal] = useState(false)
     const [folderInput, setFolderInput] = useState('')
+
+    const folderArrangement = useSelector(state => state.itemArrangement.folderArrangement)
 
     const dispatch = useDispatch()
 
@@ -25,6 +26,10 @@ function ActionBar() {
         downIcon: {
             fontSize: 8,
         },
+    }
+
+    const openModal = () => {
+        setShowModal(true)
     }
 
     const addNewFolder = () => {
@@ -78,20 +83,20 @@ function ActionBar() {
             <Menu.Item
                 key="tableOutlined"
                 className={rightAlign}
-                onClick={()=>setListGrouping(false)}
+                onClick={()=>dispatch(setFolderArrangement('grid'))}
                 style={{
                     ...internalStyles.menuItem,
-                    color: listGrouping ? 'black' : '#1890ff'
+                    color: folderArrangement === 'grid' ? '#1890ff' : 'black'
                 }}>
                 <TableOutlined />
             </Menu.Item>
             <Menu.Item
                 key="unorderedListOutlined"
                 className={rightAlign}
-                onClick={()=>setListGrouping(true)}
+                onClick={()=>dispatch(setFolderArrangement('list'))}
                 style={{
                     ...internalStyles.menuItem,
-                    color: listGrouping ? '#1890ff' : 'black'
+                    color: folderArrangement === 'list' ? '#1890ff' : 'black'
                 }}>
                 <UnorderedListOutlined />
             </Menu.Item>
@@ -107,7 +112,7 @@ function ActionBar() {
                     </div>
             </Menu.Item>
             <Menu.Item
-                onClick={()=>setShowModal(true)}
+                onClick={openModal}
                 style={internalStyles.menuItem}
                 key="createFolder"
                 icon={<FolderAddFilled/>}

@@ -6,10 +6,12 @@ import {
 import Thunk from 'redux-thunk'
 
 import { fileDataReducer } from './reducers/fileData'
+import { itemArrangementReducer } from './reducers/itemArrangement'
 
 
 const reducer = combineReducers({
     fileData : fileDataReducer,
+    itemArrangement : itemArrangementReducer,
 })
 
 

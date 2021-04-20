@@ -9,3 +9,7 @@
 .deleteIcon:hover{
     cursor: pointer;
 }
+
+.div{
+    background-color: white;
+}

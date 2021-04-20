@@ -16,8 +16,16 @@ function FolderContent(props) {
     const dispatch = useDispatch()
 
     const fileLocation = useSelector(state => state.fileData.fileLocation)
+    const folderArrangement = useSelector(state => state.itemArrangement.folderArrangement)
 
     const internalStyles = {
+        menu: {
+            borderStyle: folderArrangement === 'list' ? 'solid' : 'none',
+            margin: 'auto',
+            width: folderArrangement === 'list' ? '100%' : '10%',
+            display: folderArrangement === 'list' ? 'block' : 'flex',
+            alignItems: 'center',
+        },
         menuItem: {
             borderBottomStyle: 'none',
             color: 'black',
@@ -35,31 +43,36 @@ function FolderContent(props) {
     }
 
     return (
-        <Menu mode="horizontal">
+        <Menu 
+            mode={folderArrangement === 'list' ? 'horizontal' : 'vertical'} 
+            style={internalStyles.menu}>
             <Menu.Item
                 onClick={UpdateFileData}
                 style={internalStyles.menuItem}
                 icon={
                     type === 'folder' ? 
-                        <FolderFilled style={internalStyles.icon} /> : 
-                        <FileFilled style={internalStyles.icon} />
+                    <FolderFilled style={internalStyles.icon} /> : 
+                    <FileFilled style={internalStyles.icon} />
                 }
                 key="folder">
                 {name}
             </Menu.Item>
-            <Menu.Item
-                onClick={() => dispatch(deleteFolderFromFileData(index))}
-                style={internalStyles.menuItem}
-                key="delete"
-                className={`${rightAlign} ${deleteIcon}`}>
-                <DeleteOutlined /> 
-            </Menu.Item>
-            <Menu.Item
-                style={internalStyles.menuItem}
-                key="timestamp"
-                className={rightAlign}>
-                Apr 4, 2021, 3:36 PM &nbsp;&nbsp;&nbsp; <MinusOutlined />
-            </Menu.Item>
+            {folderArrangement === 'list' &&
+            <>
+                <Menu.Item
+                    onClick={() => dispatch(deleteFolderFromFileData(index))}
+                    style={internalStyles.menuItem}
+                    key="delete"
+                    className={`${rightAlign} ${deleteIcon}`}>
+                    <DeleteOutlined /> 
+                </Menu.Item>
+                <Menu.Item
+                    style={internalStyles.menuItem}
+                    key="timestamp"
+                    className={rightAlign}>
+                    Apr 4, 2021, 3:36 PM &nbsp;&nbsp;&nbsp; <MinusOutlined />
+                </Menu.Item>
+            </>}
         </Menu>
     )
 }
